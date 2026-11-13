@@ -8,7 +8,7 @@ st.set_page_config(page_title="Mobile-Wallet Fraud Detection", page_icon="ðŸ›¡ï¸
 
 @st.cache_resource
 def load_bundle():
-    return joblib.load("artifacts/fraud_model_bundle.joblib")
+    return joblib.load("fraud_model_bundle.joblib")
 
 def prepare_features(df_input: pd.DataFrame, feature_cols: list) -> pd.DataFrame:
     df_feat = df_input.copy()
