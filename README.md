@@ -1,28 +1,32 @@
-# 🛡️ Mobile-Wallet Fraud Detection & Cost-Based Threshold Optimization
+# 🛡️ Mobile-Wallet Fraud Detection & Cost-Based Threshold Tuner
 
-![Python](https://img.shields.io/badge/Python-3.10%2B-blue?logo=python&logoColor=white)
-![LightGBM](https://img.shields.io/badge/Model-LightGBM%20%7C%20Random%20Forest-success)
-![Streamlit](https://img.shields.io/badge/Web%20App-Streamlit-FF4B4B?logo=streamlit&logoColor=white)
-![Domain](https://img.shields.io/badge/Domain-FinTech%20%7C%20Payments-informational)
+![Python](https://img.shields.io/badge/Python-3.9%2B-blue?logo=python&logoColor=white)
+![Streamlit](https://img.shields.io/badge/Streamlit-App-FF4B4B?logo=streamlit&logoColor=white)
+![Scikit-Learn](https://img.shields.io/badge/Scikit--Learn-Random%20Forest-F7931E?logo=scikit-learn&logoColor=white)
+![Status](https://img.shields.io/badge/Status-Production%20Ready-success)
 
-An end-to-end Machine Learning system designed to detect fraudulent transfers and cash-outs across millions of highly imbalanced mobile-money transactions (modeled after services like **Vodafone Cash** and **InstaPay**), paired with an interactive **Streamlit** decision-support dashboard.
+An end-to-end Machine Learning system and interactive web application designed to detect fraudulent mobile-wallet transactions in real time. Unlike traditional models that rely solely on static accuracy metrics, this solution incorporates a **Cost-Based Decision Threshold Tuner** to balance the financial impact of missed fraud against customer friction from false alarms.
 
 ---
 
-## 📌 Problem Statement & Business Impact
-Mobile-money platforms process millions of transactions daily where fraud accounts for less than **0.15%** of total volume. A naive model optimizes accuracy at the expense of missing costly fraud, whereas an overly aggressive rule blocks legitimate users and drives customer churn.
+## 🌟 Key Highlights & Engineering Decisions
 
-This project solves both challenges by:
-1. Scaling data processing and feature engineering across **~6.3 million transactions** (PaySim dataset).
-2. Optimizing **Precision-Recall AUC (PR-AUC)** under extreme class imbalance.
-3. Implementing a **Financial Cost Matrix** to tune the classification threshold that minimizes total monetary loss (`Missed Fraud Cost` vs. `Blocked Honest User Cost`).
+* **Zero Data Leakage Architecture:** The model strictly utilizes **pre-transaction features** available at the exact moment a transaction is initiated (excluding post-transaction balances), ensuring realistic production performance.
+* **Imbalanced Data Handling:** Trained using a **Random Forest classifier with 10:1 undersampling**, achieving an exceptional **Test PR-AUC of 1.0000 (95% CI: 1.000–1.000)**.
+* **Dynamic Cost-Matrix Optimization:** Allows risk analysts to adjust the classification threshold (default: `0.69`) and customize business costs—**False Alarm Cost** (e.g., `$15.00` per blocked legitimate user) vs. **Missed Fraud Cost** (e.g., `$500.00` per undetected fraud)—to find the financially optimal operating point.
+* **Dual Evaluation Modes:**
+  1. **Single Transaction Scoring:** Instant risk scoring for individual transactions based on transaction type, amount, time step, and pre-transaction sender/recipient balances.
+  2. **Batch CSV Upload & Cost Simulator:** Bulk inference and financial impact simulation across historical or batch transaction logs.
 
 ---
 
 ## 📂 Repository Structure
+
 ```text
-├── Mobile_Wallet_Fraud_Detection.ipynb   # Full EDA, feature engineering, modeling & threshold tuning
-├── app.py                                # Interactive Streamlit web application
-├── fraud_model_bundle.joblib             # Serialized model, feature schema & optimal threshold
-├── sample_transactions.csv               # Sample test transactions for batch CSV scoring
-└── requirements.txt                      # Python dependencies
+├── .devcontainer/                         # Dev container configuration for reproducible environments
+├── artifacts/                             # Saved model binaries, scalers, and threshold metadata
+├── Mobile_Wallet_Fraud_Detection.ipynb    # EDA, feature engineering, model training & evaluation notebook
+├── app.py                                 # Main Streamlit web application & interactive UI
+├── features.py                            # Modular pre-transaction feature engineering pipeline
+├── requirements.txt                       # Python dependencies
+└── README.md                              # Project documentation
