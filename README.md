@@ -9,7 +9,7 @@ An end-to-end Machine Learning system and interactive **Streamlit** decision-sup
 - **Leakage-Free Feature Engineering (`features.py`):** Uses strictly pre-transaction data available at the moment of authorization (no post-transaction balances), preventing target leakage and ensuring production readiness.
 - **Imbalanced Learning Pipeline:** Trained using a **Random Forest Classifier** with **10:1 Undersampling**, achieving a **Test PR-AUC of 1.0000 (95% CI: 1.000–1.000)** on synthetic mobile money transaction data (744 hourly time steps / 31 days).
 - **Interactive Cost-Matrix & Threshold Tuner:**
-  - Adjust the **Classification Threshold** (default: `0.69`) in real time.
+  - Adjust the **Classification Threshold** in real time.
   - Customize **False Alarm Cost** (cost of blocking an honest user, e.g., `$15.00`) and **Missed Fraud Cost** (financial loss per undetected fraud, e.g., `$500.00`).
 - **Dual Evaluation Modes (`app.py`):**
   1. **Single Transaction Scoring:** Evaluate individual transactions on the fly by inputting transaction type, amount, time step, and pre-transaction sender/recipient balances.
